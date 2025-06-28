@@ -35,10 +35,12 @@ cors_proxy.createServer({
   redirectSameOrigin: true,
 
   // ✅ Inject correct CORS headers (this is the fix)
-  setHeaders: {
-    'access-control-allow-origin': 'https://speakeasy-production-c15b.up.railway.app',
-    'access-control-allow-credentials': 'true'
-  },
+handleInitialRequest: function(req, res, origin) {
+  res.setHeader('Access-Control-Allow-Origin', 'https://speakeasy-production-c15b.up.railway.app');
+  res.setHeader('Access-Control-Allow-Credentials', 'true');
+  return true; // Required to continue processing
+},
+
 
   httpProxyOptions: {
     xfwd: false,
